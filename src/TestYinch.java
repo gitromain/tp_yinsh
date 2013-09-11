@@ -11,7 +11,7 @@ public class TestYinch extends TestCase {
 		assertTrue(y.current_color() == Yinch.color.WHITE || y.current_color() == Yinch.color.BLACK);
 	}
 
-	public void test_ring() throws GrilleException, RingException { // test si
+	public void test_ring() throws GrilleException, RingCouleurException, RingIntersecException { // test si
 																	// un anneau
 																	// est
 		// placé dans la grille
@@ -26,7 +26,7 @@ public class TestYinch extends TestCase {
 
 	}
 
-	public void test_un_ring() throws GrilleException, RingException { // test
+	public void test_un_ring() throws GrilleException, RingCouleurException, RingIntersecException { // test
 																		// si
 																		// après
 		// insertion d'un
@@ -38,7 +38,7 @@ public class TestYinch extends TestCase {
 	}
 
 	public void test_exception_coordonnees() throws GrilleException,
-			RingException {
+			RingCouleurException, RingIntersecException {
 		Yinch y = new Yinch();
 		try {
 			y.put_ring('A', 1, Yinch.color.BLACK);
@@ -48,13 +48,24 @@ public class TestYinch extends TestCase {
 		}
 	}
 
-	public void test_meme_couleur() throws GrilleException, RingException {
+	public void test_meme_couleur() throws GrilleException, RingCouleurException, RingIntersecException {
 		Yinch y = new Yinch();
 		try {
 			y.put_ring('A', 3, Yinch.color.BLACK);
 			y.put_ring('A', 4, Yinch.color.BLACK);
 			assertTrue(false);
-		} catch (RingException e) {
+		} catch (RingCouleurException e) {
+			assertTrue(true);
+		}
+	}
+	
+	public void test_intersection() throws GrilleException, RingCouleurException, RingIntersecException{
+		Yinch y = new Yinch();
+		try {
+			y.put_ring('A', 3, Yinch.color.BLACK);
+			y.put_ring('A', 3, Yinch.color.WHITE);
+			assertTrue(false);
+		} catch (RingIntersecException e) {
 			assertTrue(true);
 		}
 	}

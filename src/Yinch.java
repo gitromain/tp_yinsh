@@ -28,9 +28,9 @@ public class Yinch {
 
 	}
 
-	public int put_ring(char colonne, int ligne, color couleur) throws GrilleException, RingException{
+	public int put_ring(char colonne, int ligne, color couleur) throws GrilleException, RingCouleurException, RingIntersecException{
 		int c =0;
-		if(couleur == old)throw new RingException();
+		if(couleur == old)throw new RingCouleurException();
 		if(couleur==color.BLACK){
 			c=1;
 			old = color.BLACK;
@@ -40,6 +40,7 @@ public class Yinch {
 			old = color.WHITE;
 		}
 		if(colonne=='A' && (ligne <2 || ligne>5))throw new GrilleException();
+		if(jeu[(int) (colonne - 'A')][ligne - 1] != 0)throw new RingIntersecException();
 		return jeu[(int) (colonne - 'A')][ligne - 1] = c;
 
 	}
