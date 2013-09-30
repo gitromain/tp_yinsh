@@ -1,5 +1,6 @@
+
 import java.util.Random;
-import exceptions.*;
+import src.exceptions.*;
 
 public class Yinch {
 

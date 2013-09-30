@@ -1,4 +1,4 @@
-import exceptions.*;
+import src.exceptions.*;
 import junit.framework.TestCase;
 
 public class TestYinch extends TestCase {
