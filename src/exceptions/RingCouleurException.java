@@ -1,4 +1,4 @@
-package src.exceptions;
+package exceptions;
 
 public class RingCouleurException extends Exception {
 	

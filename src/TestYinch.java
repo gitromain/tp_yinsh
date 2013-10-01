@@ -1,4 +1,4 @@
-import src.exceptions.*;
+import exceptions.*;
 import junit.framework.TestCase;
 
 public class TestYinch extends TestCase {
@@ -116,6 +116,20 @@ public class TestYinch extends TestCase {
 			assertTrue(y.move_ring('D', 2, 'D', 6) == 1);
 		}
 		catch(MoveRingException e){
+			assertTrue(true);
+		}
+
+	}
+	
+	public void test_passage_ring() throws GrilleException, RingCouleurException, RingIntersecException, MoveRingException, PassageRingException, MarkerException {
+		Yinch y = new Yinch();
+		
+		try{
+			y.put_ring('D', 2, Yinch.color.BLACK);
+			y.put_marker('D', 2, Yinch.color.BLACK);
+			assertTrue(y.move_ring('D', 2, 'I', 7) == 1);
+		}
+		catch(PassageRingException e){
 			assertTrue(true);
 		}
 

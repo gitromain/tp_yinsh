@@ -1,6 +1,5 @@
-
 import java.util.Random;
-import src.exceptions.*;
+import exceptions.*;
 
 public class Yinch {
 
@@ -95,10 +94,13 @@ public class Yinch {
 		c = jeu[(int) (col_now - 'A')][lig_now - 1];
 		if (jeu[(int) (col_next - 'A')][lig_next - 1] != 0) {
 			throw new MoveRingException();
-		} else {
+		} 
+		
+		
+		
 			jeu[(int) (col_now - 'A')][lig_now - 1] = 0;
 			return jeu[(int) (col_next - 'A')][lig_next - 1] = c;
-		}
+		
 	}
 
 	static Random rand = new Random();
