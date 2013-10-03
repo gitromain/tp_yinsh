@@ -148,11 +148,11 @@ public class TestYinch extends TestCase {
 		y.put_marker('E', 7, Yinch.color.WHITE);
 		y.put_marker('E', 8, Yinch.color.BLACK);
 		y.put_marker('E', 9, Yinch.color.WHITE);
-		y.reset_ring('E', 5);
-		y.reset_ring('E', 6);
-		y.reset_ring('E', 7);
-		y.reset_ring('E', 8);
-		y.reset_ring('E', 9);
+		y.remove_ring('E', 5);
+		y.remove_ring('E', 6);
+		y.remove_ring('E', 7);
+		y.remove_ring('E', 8);
+		y.remove_ring('E', 9);
 		try{
 		
 			y.move_ring('E', 4, 'E', 10);
@@ -167,5 +167,45 @@ public class TestYinch extends TestCase {
 			assertTrue(true);
 		}
 	}
+
+    public void test_remove_row() throws RingCouleurException, RingIntersecException, GrilleException, MarkerException {
+        Yinch y = new Yinch();
+        y.put_ring('E', 6, Yinch.color.BLACK);
+        y.put_ring('E', 5, Yinch.color.WHITE);
+        y.put_ring('F', 7, Yinch.color.BLACK);
+        y.put_ring('E', 7, Yinch.color.WHITE);
+        y.put_ring('G', 8, Yinch.color.BLACK);
+        y.put_ring('E', 8, Yinch.color.WHITE);
+        y.put_ring('H', 9, Yinch.color.BLACK);
+        y.put_ring('G', 4, Yinch.color.WHITE);
+        y.put_ring('I', 10, Yinch.color.BLACK);
+
+        y.put_marker('E', 6, Yinch.color.BLACK);
+        y.put_marker('F', 7, Yinch.color.BLACK);
+        y.put_marker('G', 8, Yinch.color.BLACK);
+        y.put_marker('H', 9, Yinch.color.BLACK);
+        y.put_marker('I', 10, Yinch.color.BLACK);
+
+        y.remove_ring('E', 6);
+        y.remove_ring('F', 7);
+        y.remove_ring('G', 8);
+        y.remove_ring('H', 9);
+        y.remove_ring('I', 10);
+
+        y.remove_row('E', 6, 'I', 10);
+        assertTrue(y.color_marker('E', 6) == 0);
+        assertTrue(y.color_marker('F',7)==0);
+        assertTrue(y.color_marker('G',8)==0);
+        assertTrue(y.color_marker('H',9)==0);
+        assertTrue(y.color_marker('I',10)==0);
+
+
+    }
+
+    public void test_remove_ring() throws RingCouleurException, RingIntersecException, GrilleException {
+        Yinch y = new Yinch();
+        y.put_ring('H', 10, Yinch.color.BLACK);
+        assertTrue(y.remove_ring('H',10)==0);
+    }
 
 }

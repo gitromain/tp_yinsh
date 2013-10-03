@@ -97,7 +97,7 @@ public class Yinch {
 	
 	
 	/*vide la case passer en parametre (sert pour les tests)w*/
-	public int reset_ring(char colonne, int ligne){
+	public int remove_ring(char colonne, int ligne){
 		return jeu[(int) (colonne - 'A')][ligne - 1]=0;
 	}
 	
@@ -143,7 +143,7 @@ public class Yinch {
 		if((int) (col_now - 'A')<(int) (col_next - 'A') && (int) (lig_now - 1)<(int) (lig_next - 1) ){
 			int j2=(int) (lig_now - 1);
 			for (int i = (int) (col_now - 'A'); i <= (int) (col_next - 'A'); i++) { //on ne parcourt que la colonne souhait�
-				if(j2!=(int) (lig_next - 1)){
+
 					if(marker[i][j2]!=0){
 						int couleur=marker[i][j2];
 							if(couleur==1){
@@ -156,7 +156,7 @@ public class Yinch {
 					if(jeu[i][j2]!=0){
 						cpt++;
 					}
-				}
+
 				j2++;
 			}	
 			
@@ -192,6 +192,23 @@ public class Yinch {
 		return jeu[(int) (col_next - 'A')][lig_next - 1] = c;
 		
 	}
+
+    public int[][] remove_row(char col_now, int lig_now, char col_next, int lig_next){
+        int cpt=0;
+
+		/* 2�me cas : d�placement en haut � droite => colonne de d�part inf�rieur a arriv�e et ligne d�part inf�rieure � arriv�e */
+        if((int) (col_now - 'A')<(int) (col_next - 'A') && (int) (lig_now - 1)<(int) (lig_next - 1) ){
+            int j=(int) (lig_now - 1);
+            for (int i = (int) (col_now - 'A'); i <= (int) (col_next - 'A'); i++) { //on ne parcourt que la colonne souhait�
+
+                marker[i][j]=0 ;
+                j++;
+            }
+
+
+    }
+        return marker;
+    }
 
 	static Random rand = new Random();
 
