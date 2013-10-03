@@ -104,7 +104,7 @@ public class TestYinch extends TestCase {
 
 	}
 	
-	public void test_move_ring() throws GrilleException, RingCouleurException, RingIntersecException, MoveRingException, MarkerException {
+	public void test_move_ring() throws GrilleException, RingCouleurException, RingIntersecException, MoveRingException, MarkerException, PassageRingException {
 		Yinch y = new Yinch();
 		
 		y.put_ring('D', 6, Yinch.color.WHITE);
@@ -123,7 +123,7 @@ public class TestYinch extends TestCase {
 	
 	public void test_passage_ring() throws GrilleException, RingCouleurException, RingIntersecException, MoveRingException, PassageRingException, MarkerException {
 		Yinch y = new Yinch();
-		
+		y.put_ring('H', 6, Yinch.color.WHITE);
 		try{
 			y.put_ring('D', 2, Yinch.color.BLACK);
 			y.put_marker('D', 2, Yinch.color.BLACK);
@@ -133,6 +133,39 @@ public class TestYinch extends TestCase {
 			assertTrue(true);
 		}
 
+	}
+	
+	public void test_retournement_marker() throws GrilleException, RingCouleurException, RingIntersecException, MarkerException, MoveRingException{
+		Yinch y = new Yinch();
+		y.put_ring('E', 4, Yinch.color.BLACK);
+		y.put_ring('E', 6, Yinch.color.WHITE);
+		y.put_ring('E', 5, Yinch.color.BLACK);
+		y.put_ring('E', 7, Yinch.color.WHITE);
+		y.put_ring('E', 8, Yinch.color.BLACK);
+		y.put_ring('E', 9, Yinch.color.WHITE);
+		y.put_marker('E', 5, Yinch.color.BLACK);
+		y.put_marker('E', 6, Yinch.color.WHITE);
+		y.put_marker('E', 7, Yinch.color.WHITE);
+		y.put_marker('E', 8, Yinch.color.BLACK);
+		y.put_marker('E', 9, Yinch.color.WHITE);
+		y.reset_ring('E', 5);
+		y.reset_ring('E', 6);
+		y.reset_ring('E', 7);
+		y.reset_ring('E', 8);
+		y.reset_ring('E', 9);
+		try{
+		
+			y.move_ring('E', 4, 'E', 10);
+			
+			assertTrue(y.color_marker('E',5)==2);
+			assertTrue(y.color_marker('E',6)==1);
+			assertTrue(y.color_marker('E',7)==1);
+			assertTrue(y.color_marker('E',8)==2);
+			assertTrue(y.color_marker('E',9)==1);
+		}
+		catch(PassageRingException e){
+			assertTrue(true);
+		}
 	}
 
 }
