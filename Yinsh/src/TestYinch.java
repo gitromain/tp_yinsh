@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import exceptions.*;
 import junit.framework.TestCase;
 
@@ -6,7 +9,7 @@ public class TestYinch extends TestCase {
 		super(name);
 	}
 
-	public void test_couleur() { // test la couleur de dÃ©part de l'anneau
+	public void test_couleur() { // test la couleur de départ de l'anneau
 		Yinch y = new Yinch();
 		assertTrue(y.current_color() == Yinch.color.WHITE
 				|| y.current_color() == Yinch.color.BLACK);
@@ -96,43 +99,52 @@ public class TestYinch extends TestCase {
 	public void test_put_marker() throws MarkerException {
 		Yinch y = new Yinch();
 		try {
-		assertTrue(y.put_marker('D', 2, Yinch.color.BLACK) == 1);
-		}
-		catch(MarkerException e) {
+			assertTrue(y.put_marker('D', 2, Yinch.color.BLACK) == 1);
+		} catch (MarkerException e) {
 			assertTrue(true);
 		}
 
 	}
-	
-	public void test_move_ring() throws GrilleException, RingCouleurException, RingIntersecException, MoveRingException, MarkerException, PassageRingException {
+
+	public void test_move_ring() throws GrilleException, RingCouleurException,
+			RingIntersecException, MoveRingException, MarkerException,
+			PassageRingException {
 		Yinch y = new Yinch();
-		
+
 		y.put_ring('D', 6, Yinch.color.WHITE);
 
-		
-		try{
+		try {
 			y.put_ring('D', 2, Yinch.color.BLACK);
 			y.put_marker('D', 2, Yinch.color.BLACK);
 			assertTrue(y.move_ring('D', 2, 'D', 6) == 1);
-		}
-		catch(MoveRingException e){
+		} catch (MoveRingException e) {
 			assertTrue(true);
 		}
 
 	}
-	
-	public void test_passage_ring() throws GrilleException, RingCouleurException, RingIntersecException, MoveRingException, PassageRingException, MarkerException {
+
+	public void test_passage_ring() throws GrilleException,
+			RingCouleurException, RingIntersecException, MoveRingException,
+			PassageRingException, MarkerException {
 		Yinch y = new Yinch();
-		y.put_ring('H', 6, Yinch.color.BLACK);
-		try{
+		try {
 			y.put_ring('D', 2, Yinch.color.BLACK);
 			y.put_marker('D', 2, Yinch.color.BLACK);
 			assertTrue(y.move_ring('D', 2, 'I', 7) == 1);
-		}
-		catch(PassageRingException e){
+		} catch (PassageRingException e) {
 			assertTrue(true);
 		}
 
 	}
+
+	
+	public void test_possible_move() throws MarkerException, GrilleException, RingCouleurException, RingIntersecException{
+		Yinch y = new Yinch();
+		y.put_ring('E', 9, Yinch.color.BLACK);
+		y.put_marker('E', 9, Yinch.color.BLACK);
+		assertTrue(y.possible_move('E',4) == Yinch.list_move );
+		
+	}
+	
 
 }

@@ -1,11 +1,15 @@
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 import exceptions.*;
 
 public class Yinch {
 
-	private int[][] jeu;
-	private int[][] marker;
+	private int[][] jeu; // zone de jeu des anneaux
+	private int[][] marker; // zone de jeu des marqeurs
+	static ArrayList<String> list_move; // liste contenant les déplacements possible
 
 	public Yinch() {
 		jeu = new int[11][11];
@@ -116,7 +120,7 @@ public class Yinch {
 				j++;
 			}	
 			
-			if(cpt != 1){// Je pense que la boucle va compter l'année col_now lig_now du coup ca en fera un au départ.
+			if(cpt != 1){// La boucle va compter col_now, lig_now du coup ca en fera un ring au départ.
 				throw new PassageRingException();
 			}
 			else{
@@ -148,6 +152,43 @@ public class Yinch {
 		return jeu[(int) (col_next - 'A')][lig_next - 1] = c;
 		
 	}
+	
+	/* Fonction qui remplie et renvoie une liste des coordonnées de déplacement possible pour les coordonnées passés en paramètre*/
+	public ArrayList<String> possible_move(char colonne, int ligne){
+		list_move= new ArrayList<String>();
+		
+		// Move haut
+		int col = (int) (colonne - 'A');
+		for (int i = col; i == col; i++) {
+			for (int j = (int) (ligne); j < 11; j++){ // Si les cases sont vides alors on ajoute la coordonnée à la liste
+				if(jeu[i][j]==0 && marker[i][j]==0 && j!=ligne){
+					list_move.add("("+colonne+","+Integer.toString(j)+")");		
+				}
+				if(jeu[i][j]!=0){ // S'il y'a une anneau, on sort de la boucle
+					break;
+				}
+			}
+		}
+		
+		// Move haut droit
+		
+		// Move haut gauche
+		
+		// Move bas
+		
+		// Move bas droit
+		
+		// Move bas gauche
+		
+		Iterator<String> it = list_move.iterator();
+		 while(it.hasNext()){
+		 	System.out.println(it.next());
+		 }
+
+		
+		return list_move;
+	}
+	
 
 	static Random rand = new Random();
 
