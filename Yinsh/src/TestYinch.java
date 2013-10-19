@@ -146,5 +146,16 @@ public class TestYinch extends TestCase {
 		
 	}
 	
+	public void test_blitz_mode() throws GrilleException, RingCouleurException, RingIntersecException, MarkerException {
+		Yinch y = new Yinch();
+		y.put_ring('E', 5, Yinch.color.BLACK);
+		y.put_marker('F', 6, Yinch.color.BLACK);
+		y.put_marker('G', 7, Yinch.color.BLACK);
+		y.put_marker('H', 8, Yinch.color.BLACK);
+		y.put_marker('I', 9, Yinch.color.BLACK);
+		y.put_marker('J', 10, Yinch.color.BLACK);
+		assertTrue(y.end_game_blitz() == true );
+		
+	}
 
 }
