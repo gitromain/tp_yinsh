@@ -3,109 +3,104 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 
 import exceptions.*;
 
 public class Yinch {
 
-	private int[][] jeu; // zone de jeu des anneaux
-	private int[][] marker; // zone de jeu des marqeurs
-	static ArrayList<String> list_move; // liste des déplacements possible
-	private boolean mode; // 0 ) mode normal, 1 = mode Blitz
+	private int[][] m_jeuYinch; // zone de m_jeuYinch des anneaux
+	private int[][] m_markerYinch; // zone de m_jeuYinch des marqeurs
+	static ArrayList<String> s_listMove; // liste des dï¿½placements possible
+	private boolean m_modeYinsh; // 0 ) m_modeYinsh normal, 1 = m_modeYinsh Blitz
 
 	public Yinch() {
-		jeu = new int[11][11];
-		marker = new int[11][11];
-		mode = (Boolean) null;
+		m_jeuYinch = new int[11][11];
+		m_markerYinch = new int[11][11];
+		m_modeYinsh = (Boolean) null;
 	}
 
-	/* permet de choisir le mode de jeu (blitz ou normal) */
-	public boolean game_mode() {
-		int test_buffer = 0;
-		while (test_buffer == 0) {
+	/* permet de choisir le m_modeYinsh de m_jeuYinch (blitz ou normal) */
+	public boolean isGameMode() {
+		int testBuffer = 0;
+		while (testBuffer == 0) {
 			BufferedReader keyboard = new BufferedReader(new InputStreamReader(
 					System.in));
 			String line = "";
 			System.out
-					.println("Choisissez le mode de jeu : 0 = normal / 1 = blitz");
+					.println("Choisissez le m_modeYinsh de m_jeuYinch : 0 = normal / 1 = blitz");
 			try {
 				line = keyboard.readLine();
 			} catch (IOException e) {
 				System.out.println("err");
 			}
 			/* test pour forcer l'utilisateur a entrer 1 ou 0 */
-			if (line != "0" || line != "1") {
+			if (!line.equals("0") && !line.equals("1")) {
 				System.out.println("Les seuls choix possibles sont 0 ou 1 !");
 			} else {
-				test_buffer = 1;
-				if (line == "1") {
-					mode = true;
-				} else {
-					mode = false;
-				}
+				testBuffer = 1;
+                m_modeYinsh = line.equals("1");
 			}
 		}
-		return mode;
+		return m_modeYinsh;
 
 	}
 
 	/*
-	 * test si le plateu marker possède un alignement de 5 marker de même
+	 * test si le plateu m_markerYinch possï¿½de un alignement de 5 m_markerYinch de mï¿½me
 	 * couleur, retourne vrai si c'est le cas
 	 */
-	public boolean end_game_blitz() {
+	public boolean isEndGameBlitz() {
 		boolean end = false;
-		int cpt_black = 0;
-		int cpt_white = 0;
-		int cpt_align = 1;
+		int cptBlack = 0;
+		int cptWhite = 0;
+		int cptAlign = 1;
 		/*
 		 * on test si le tableau des markers comporte au moins 5 markers de la
-		 * même couleur
+		 * mï¿½me couleur
 		 */
 		for (int i = 0; i < 11; i++) {
 			for (int j = 0; j < 11; j++) {
-				if (marker[i][j] == 1) {
-					cpt_black += 1;
+				if (m_markerYinch[i][j] == 1) {
+					cptBlack += 1;
 				}
-				if (marker[i][j] == 2) {
-					cpt_white += 1;
+				if (m_markerYinch[i][j] == 2) {
+					cptWhite += 1;
 				}
 			}
 		}
-		if (cpt_black < 5 || cpt_white < 5) {
-			return end = false;
+		if (cptBlack < 5 || cptWhite < 5) {
+			 end = false;
 		}
 
 		/*
-		 * dans le cas où il y'a au moins 5 markers de la même couleur sur le
+		 * dans le cas oï¿½ il y'a au moins 5 markers de la mï¿½me couleur sur le
 		 * plateau il faut tester s'il y'a un alignement
 		 */
 		/*
-		 * ici je vais uniquement traité le cas pour la 9eme histoire, c'est à
+		 * ici je vais uniquement traitï¿½ le cas pour la 9eme histoire, c'est ï¿½
 		 * dire l'alignement des markers noirs de la figure 5
 		 */
-		if (cpt_black >= 5) {
+		if (cptBlack >= 5) {
 			for (int i = 0; i < 11; i++) {
 				for (int j = 0; j < 11; j++) {
-					if (marker[i][j] == 1) {
+					if (m_markerYinch[i][j] == 1) {
 						/*
 						 * Vue que l'on est dans le cas de la figure 5, on
 						 * regarde si es cases en haut a droite contiennent des
 						 * markers
 						 */
 						int a=i+1;
-						int b=j+1;
+						int loopB=j+1;
 						
-						while(marker[a][b]==1){
+						while(m_markerYinch[a][loopB]==1){
 							a++;
-							b++;
-							cpt_align++;
+							loopB++;
+							cptAlign++;
 						}
 					}
-					if(cpt_align >= 5){
-						return end=true;
+					if(cptAlign >= 5){
+						 end=true;
 					}
 
 				}
@@ -116,53 +111,53 @@ public class Yinch {
 
 	}
 
-	public void end_game_normal() {
+	public void endGameNormal() {
 
 	}
 
-	public enum color {
+	public enum PlayerColor {
 		BLACK, WHITE
-	};
+	}
 
-	color old = null;
+    PlayerColor m_oldColorYinch = null;
 
-	public color current_color() {
+	public PlayerColor currentColor() {
 		int setColor = pRand(2);
 		if (setColor == 1) {
 			System.out.println("La couleur noire commence");
-			return color.BLACK;
+			return PlayerColor.BLACK;
 		} else {
 			System.out.println("La couleur blanche commence");
-			return color.WHITE;
+			return PlayerColor.WHITE;
 		}
 
 	}
 
-	public int put_ring(char colonne, int ligne, color couleur)
+	public int putRing(char colonne, int ligne, PlayerColor couleur)
 			throws GrilleException, RingCouleurException, RingIntersecException {
-		int c = 0;
-		if (couleur == old)
+		int couleurC;
+		if (couleur == m_oldColorYinch)
 			throw new RingCouleurException();
-		if (couleur == color.BLACK) {
-			c = 1;
-			old = color.BLACK;
+		if (couleur == PlayerColor.BLACK) {
+			couleurC = 1;
+			m_oldColorYinch = PlayerColor.BLACK;
 		} else {
-			c = 2;
-			old = color.WHITE;
+			couleurC = 2;
+			m_oldColorYinch = PlayerColor.WHITE;
 		}
 		if (colonne == 'A' && (ligne < 2 || ligne > 5))
 			throw new GrilleException();
-		if (jeu[(int) (colonne - 'A')][ligne - 1] != 0)
+		if (m_jeuYinch[(int) (colonne - 'A')][ligne - 1] != 0)
 			throw new RingIntersecException();
-		return jeu[(int) (colonne - 'A')][ligne - 1] = c;
+		return m_jeuYinch[(int) (colonne - 'A')][ligne - 1] = couleurC;
 
 	}
 
-	public int etat_init() {
+	public int etatInit() {
 		int cpt = 0;
-		for (int i = 0; i < jeu.length; i++) {
-			for (int j = 0; j < jeu[i].length; j++) {
-				if (jeu[i][j] != 0) {
+		for (int i = 0; i < m_jeuYinch.length; i++) {
+			for (int j = 0; j < m_jeuYinch[i].length; j++) {
+				if (m_jeuYinch[i][j] != 0) {
 					cpt++;
 				}
 			}
@@ -170,70 +165,66 @@ public class Yinch {
 		return cpt;
 	}
 
-	public boolean is_initialized() {
-		int cpt = etat_init();
-		if (cpt == 10) {
-			return true;
-		} else {
-			return false;
-		}
+	public boolean isInitialized() {
+		int cpt = etatInit();
+        return cpt == 10;
 
 	}
 
-	public int put_marker(char colonne, int ligne, color couleur)
+	public int putMarker(char colonne, int ligne, PlayerColor couleur)
 			throws MarkerException {
-		int c = 0;
-		if (couleur == color.BLACK) {
-			c = 1;
-			old = color.BLACK;
+		int couleurC ;
+		if (couleur == PlayerColor.BLACK) {
+			couleurC = 1;
+			m_oldColorYinch = PlayerColor.BLACK;
 		} else {
-			c = 2;
-			old = color.WHITE;
+			couleurC = 2;
+			m_oldColorYinch = PlayerColor.WHITE;
 		}
-		if (jeu[(int) (colonne - 'A')][ligne - 1] != c) {
+		if (m_jeuYinch[(int) (colonne - 'A')][ligne - 1] != couleurC) {
 			throw new MarkerException();
 		} else {
-			return marker[(int) (colonne - 'A')][ligne - 1] = c;
+			return m_markerYinch[(int) (colonne - 'A')][ligne - 1] = couleurC;
 		}
 	}
 
-	public int move_ring(char col_now, int lig_now, char col_next, int lig_next)
+    public int moveRing(char colNow, int ligNow, char colNext, int ligNext)
 			throws MoveRingException, PassageRingException {
-		int c = 0; // rÃ©cupÃ©ration de la couleur.
-		c = jeu[(int) (col_now - 'A')][lig_now - 1];
-		if (jeu[(int) (col_next - 'A')][lig_next - 1] != 0) {
+		int couleurC; // rÃ©cupÃ©ration de la couleur.
+		couleurC = m_jeuYinch[(int) (colNow - 'A')][ligNow - 1];
+		if (m_jeuYinch[(int) (colNext - 'A')][ligNext - 1] != 0) {
 			throw new MoveRingException();
 		}
 
 		int cpt = 0;
-		/* On va traiter les 6 cas de déplacement de l'anneau */
+		/* On va traiter les 6 cas de dï¿½placement de l'anneau */
 		/*
-		 * 1er cas : déplacement en haut => colonne de départ identiques et
-		 * lignes départ inférieure a arrivée
+		 * 1er cas : dï¿½placement en haut => colonne de dï¿½part identiques et
+		 * lignes dï¿½part infï¿½rieure a arrivï¿½e
 		 */
-		if ((int) (col_now - 'A') == (int) (col_next - 'A')
-				&& (int) (lig_now - 1) < (int) (lig_next - 1)) {
+		if ((int) (colNow - 'A') == (int) (colNext - 'A')
+				&& (int) (ligNow - 1) < (int) (ligNext - 1)) {
 
 		}
 
 		/*
-		 * 2ème cas : déplacement en haut à droite => colonne de départ
-		 * inférieur a arrivée et ligne départ inférieure à arrivée
+		 * 2ï¿½me cas : dï¿½placement en haut ï¿½ droite => colonne de dï¿½part
+		 * infï¿½rieur a arrivï¿½e et ligne dï¿½part infï¿½rieure ï¿½ arrivï¿½e
 		 */
-		if ((int) (col_now - 'A') < (int) (col_next - 'A')
-				&& (int) (lig_now - 1) < (int) (lig_next - 1)) {
-			int j = (int) (lig_now - 1);
-			for (int i = (int) (col_now - 'A'); i <= (int) (col_next - 'A'); i++) {
-				if (j != (int) (lig_next - 1)) {
-					if (jeu[i][j] != 0) {
+		if ((int) (colNow - 'A') < (int) (colNext - 'A')
+				&& (int) (ligNow - 1) < (int) (ligNext - 1)) {
+			int j = (int) (ligNow - 1);
+			for (int i = (int) (colNow - 'A'); i <= (int) (colNext - 'A'); i++) {
+				if (j != (int) (ligNext - 1)) {
+					if (m_jeuYinch[i][j] != 0) {
 						cpt++;
 					}
 				}
 				j++;
 			}
 
-			if (cpt != 1) {// La boucle va compter col_now, lig_now du coup ca
-							// fera un ring au départ.
+			if (cpt != 1) {// La boucle va compter colNow, ligNow du coup ca
+							// fera un ring au dï¿½part.
 				throw new PassageRingException();
 			} else {
 
@@ -241,65 +232,65 @@ public class Yinch {
 		}
 
 		/*
-		 * 3ème cas : déplacement en haut à gauche => colonne de départ
-		 * supérieur à arrivée et ligne départ inférieur à arrivée
+		 * 3ï¿½me cas : dï¿½placement en haut ï¿½ gauche => colonne de dï¿½part
+		 * supï¿½rieur ï¿½ arrivï¿½e et ligne dï¿½part infï¿½rieur ï¿½ arrivï¿½e
 		 */
-		if ((int) (col_now - 'A') > (int) (col_next - 'A')
-				&& (int) (lig_now - 1) < (int) (lig_next - 1)) {
+		if ((int) (colNow - 'A') > (int) (colNext - 'A')
+				&& (int) (ligNow - 1) < (int) (ligNext - 1)) {
 			/* instruction */
 		}
 
 		/*
-		 * 4ème cas : déplacement en bas => colonne de départ identiques et
-		 * lignes départ supérieur a arrivée
+		 * 4ï¿½me cas : dï¿½placement en bas => colonne de dï¿½part identiques et
+		 * lignes dï¿½part supï¿½rieur a arrivï¿½e
 		 */
-		if ((int) (col_now - 'A') == (int) (col_next - 'A')
-				&& (int) (lig_now - 1) > (int) (lig_next - 1)) {
+		if ((int) (colNow - 'A') == (int) (colNext - 'A')
+				&& (int) (ligNow - 1) > (int) (ligNext - 1)) {
 			/* instruction */
 		}
 
 		/*
-		 * 5ème cas : déplacement en bas à droite => colonne de départ inférieur
-		 * a arrivée et ligne départ supérieur à arrivée
+		 * 5ï¿½me cas : dï¿½placement en bas ï¿½ droite => colonne de dï¿½part infï¿½rieur
+		 * a arrivï¿½e et ligne dï¿½part supï¿½rieur ï¿½ arrivï¿½e
 		 */
-		if ((int) (col_now - 'A') < (int) (col_next - 'A')
-				&& (int) (lig_now - 1) > (int) (lig_next - 1)) {
+		if ((int) (colNow - 'A') < (int) (colNext - 'A')
+				&& (int) (ligNow - 1) > (int) (ligNext - 1)) {
 			/* instruction */
 		}
 
 		/*
-		 * 6ème cas : déplacement en bas à gauche => colonne de départ supérieur
-		 * a arrivée et ligne départ supérieur à arrivée
+		 * 6ï¿½me cas : dï¿½placement en bas ï¿½ gauche => colonne de dï¿½part supï¿½rieur
+		 * a arrivï¿½e et ligne dï¿½part supï¿½rieur ï¿½ arrivï¿½e
 		 */
-		if ((int) (col_now - 'A') > (int) (col_next - 'A')
-				&& (int) (lig_now - 1) > (int) (lig_next - 1)) {
+		if ((int) (colNow - 'A') > (int) (colNext - 'A')
+				&& (int) (ligNow - 1) > (int) (ligNext - 1)) {
 			/* instruction */
 		}
 
-		jeu[(int) (col_now - 'A')][lig_now - 1] = 0;
-		return jeu[(int) (col_next - 'A')][lig_next - 1] = c;
+		m_jeuYinch[(int) (colNow - 'A')][ligNow - 1] = 0;
+		return m_jeuYinch[(int) (colNext - 'A')][ligNext - 1] = couleurC;
 
 	}
 
 	/*
-	 * Fonction qui remplie et renvoie une liste des coordonnées de déplacement
-	 * possible pour les coordonnées passés en paramètre
+	 * Fonction qui remplie et renvoie une liste des coordonnï¿½es de dï¿½placement
+	 * possible pour les coordonnï¿½es passï¿½s en paramï¿½tre
 	 */
-	public ArrayList<String> possible_move(char colonne, int ligne) {
-		list_move = new ArrayList<String>();
+	public ArrayList<String> possibleMove(char colonne, int ligne) {
+		s_listMove = new ArrayList<String>();
 
 		// Move haut
 		int col = (int) (colonne - 'A');
 		for (int i = col; i == col; i++) {
 			for (int j = (int) (ligne); j < 11; j++) { // Si les cases sont
 														// vides alors on ajoute
-														// la coordonnée à la
+														// la coordonnï¿½e ï¿½ la
 														// liste
-				if (jeu[i][j] == 0 && marker[i][j] == 0 && j != ligne) {
-					list_move.add("(" + colonne + "," + Integer.toString(j)
-							+ ")");
+				if (m_jeuYinch[i][j] == 0 && m_markerYinch[i][j] == 0 && j != ligne) {
+					s_listMove.add("(" + colonne + "," + Integer.toString(j)
+                            + ")");
 				}
-				if (jeu[i][j] != 0) { // S'il y'a une anneau, on sort de la
+				if (m_jeuYinch[i][j] != 0) { // S'il y'a une anneau, on sort de la
 										// boucle
 					break;
 				}
@@ -316,18 +307,18 @@ public class Yinch {
 
 		// Move bas gauche
 
-		Iterator<String> it = list_move.iterator();
+		Iterator<String> it = s_listMove.iterator();
 		while (it.hasNext()) {
 			System.out.println(it.next());
 		}
 
-		return list_move;
+		return s_listMove;
 	}
 
-	static Random rand = new Random();
+	static Random s_randYinch = new Random();
 
 	static int pRand(int mod) {
-		return Math.abs(rand.nextInt()) % mod;
+		return Math.abs(s_randYinch.nextInt()) % mod;
 	}
 
 	public static void main(String[] args) {
